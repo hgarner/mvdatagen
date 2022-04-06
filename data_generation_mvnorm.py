@@ -394,37 +394,3 @@ def normalise_cols(dataset: np.ndarray, norm_range = (0, 1), min_to_zero = True)
 def select_n(src_array, n):
   rng = np.random.default_rng()
   return rng.choice(src_array, size = n, replace = False, axis = 0) 
-  #return np.take(src_array, np.random.randint(low = 0, high = src_array.shape[0], size = n), axis = 0)
-
-### BELOW IS NOW REDUNDANT 
-
-# generate a pair of datasets 
-# how do we want to vary these? and how to specify?
-# adjust corr matrix within bounds?
-# adjust mean for n vars?
-#   do we want to adjust the mean for all vars that have diff corr?
-#   or these plus others to reduce confounding
-# plan:
-# generate a dataset (d1) of n samples with a given corr matrix
-# adjust p elements of the corr matrix
-# remove n*0.1 points from end of dist for adjusted vars
-# generate a new dataset (d2) with n samples using new corr matrix
-# take m = n*0.1 points from d2 at end of dist for adjusted vars
-# join m points to d1, thereby replacing the removed points
-# boom
-def gen_mvnorm_end_corr(corr_d1: np.ndarray, corr_d2: np.ndarray, mean: float, sample_size: int) -> np.ndarray:
-  # first generate the core dataset (d1) with the relevant 
-  # correlation matrix
-  d1 = gen_correlated_mvnorm(corr = corr_d1, mean = mean, sample_size = sample_size)
-  # drop the int(sample_size * 0.1) highest vals from each var
-
-
-
-class SimDataset:
-  def __init__(self, num_vars: int, num_samples: int):
-    if num_vars > 0:
-      self.num_vars = num_vars
-    else:
-      raise ValueError('SimDataset init: num_vars must be greater than 0')
-
-
